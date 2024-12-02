@@ -200,7 +200,9 @@ Parameters:
     Default: admin
   ADMIN_PASSWORD:
     Type: String
+    AssociationProperty: ALIYUN::ECS::Instance::Password
     Label: ADMIN_PASSWORD
+    NoEcho: True
     Default: password
   ADMIN_EMAIL:
     Type: String
@@ -212,7 +214,9 @@ Parameters:
     Default: doccano
   RABBITMQ_DEFAULT_PASS:
     Type: String
+    AssociationProperty: ALIYUN::ECS::Instance::Password
     Label: RABBITMQ_DEFAULT_PASS
+    NoEcho: True
     Default: doccano
   POSTGRES_USER:
     Type: String
@@ -220,12 +224,18 @@ Parameters:
     Default: doccano
   POSTGRES_PASSWORD:
     Type: String
+    AssociationProperty: ALIYUN::ECS::Instance::Password
     Label: POSTGRES_PASSWORD
+    NoEcho: True
     Default: doccano
   POSTGRES_DB:
     Type: String
     Label: POSTGRES_DB
     Default: doccano
+  FLOWER_BASIC_AUTH:
+    Type: String
+    Label: FLOWER_BASIC_AUTH
+    Default:  
 Resources:
   # 新建vpc
   EcsVpc:
@@ -353,6 +363,7 @@ Resources:
             sed -i 's/POSTGRES_USER=[^\n]*/POSTGRES_USER=${POSTGRES_USER}/' /root/application/docker_compose/docker/.env
             sed -i 's/POSTGRES_PASSWORD=[^\n]*/POSTGRES_PASSWORD=${POSTGRES_PASSWORD}/' /root/application/docker_compose/docker/.env
             sed -i 's/POSTGRES_DB=[^\n]*/POSTGRES_DB=${POSTGRES_DB}/' /root/application/docker_compose/docker/.env
+            sed -i 's/FLOWER_BASIC_AUTH=[^\n]*/FLOWER_BASIC_AUTH=${FLOWER_BASIC_AUTH}/' /root/application/docker_compose/docker/.env
             systemctl start quickstart-doccano
           - RegionId:
               Ref: ALIYUN::Region
@@ -428,6 +439,7 @@ Metadata:
           - POSTGRES_USER
           - POSTGRES_PASSWORD
           - POSTGRES_DB
+          - FLOWER_BASIC_AUTH
         Label:
           en: Software Configuration
           zh-cn: 软件配置

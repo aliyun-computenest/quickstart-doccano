@@ -1,5 +1,5 @@
 Service:
-  RegionId: cn-hangzhou
+  RegionId: ap-southeast-1
   DeployType: ros
   OperationMetadata:
     StatusOperationConfigs:
@@ -32,11 +32,11 @@ Artifact:
     ArtifactType: File
     ArtifactName: aliyun-computenest_quickstart-doccano-docker-compose
     ArtifactProperty:
-      RegionId: cn-hangzhou
+      RegionId: ap-southeast-1
       Url: 'resources/artifact_resources/docker_compose.tar'
   Artifact_2:
     ArtifactType: AcrImage
-    ArtifactName: AcrImage-doccano-doccano
+    ArtifactName: AcrImage-doccano-doccano-backend
     ArtifactProperty:
       RepoName: ${AcrImageBuilder.AcrImage_1.RepoName}
       Tag: ${AcrImageBuilder.AcrImage_1.Tag}
@@ -50,7 +50,7 @@ Artifact:
       RepoType: Public
   Artifact_4:
     ArtifactType: AcrImage
-    ArtifactName: AcrImage-doccano-doccano
+    ArtifactName: AcrImage-doccano-doccano-frontend
     ArtifactProperty:
       RepoName: ${AcrImageBuilder.AcrImage_3.RepoName}
       Tag: ${AcrImageBuilder.AcrImage_3.Tag}
