@@ -194,34 +194,35 @@ Parameters:
           Fn::Equals:
             - ExistingVPC
             - ${VpcOption}
-  AdminUserName:
+  ADMIN_USERNAME:
     Type: String
     Label: ADMIN_USERNAME
     Default: admin
-  AdminPassword:
+  ADMIN_PASSWORD:
     Type: String
     Label: ADMIN_PASSWORD
     Default: password
-  AdminEmail:
+  ADMIN_EMAIL:
     Type: String
     Label: ADMIN_EMAIL
-  RabbitmqDefaultUser:
+    Default: admin@example.com
+  RABBITMQ_DEFAULT_USER:
     Type: String
     Label: RABBITMQ_DEFAULT_USER
     Default: doccano
-  RabbitmqDefaultPass:
+  RABBITMQ_DEFAULT_PASS:
     Type: String
     Label: RABBITMQ_DEFAULT_PASS
     Default: doccano
-  PostgresUser:
+  POSTGRES_USER:
     Type: String
     Label: POSTGRES_USER
     Default: doccano
-  PostgresPassword:
+  POSTGRES_PASSWORD:
     Type: String
     Label: POSTGRES_PASSWORD
     Default: doccano
-  PostgresDb:
+  POSTGRES_DB:
     Type: String
     Label: POSTGRES_DB
     Default: doccano
@@ -259,12 +260,12 @@ Resources:
           - Ref: EcsVpc
           - Ref: VpcId
       SecurityGroupIngress:
-        - PortRange: 80/80
+        - PortRange: 5672/5672
           Priority: 1
           SourceCidrIp: 0.0.0.0/0
           IpProtocol: tcp
           NicType: internet
-        - PortRange: 5672/5672
+        - PortRange: 80/80
           Priority: 1
           SourceCidrIp: 0.0.0.0/0
           IpProtocol: tcp
@@ -344,14 +345,14 @@ Resources:
 
             systemctl enable quickstart-doccano
 
-            echo 'AdminUserName=${AdminUserName}' >> /root/application/docker_compose/docker/.env
-            echo 'AdminPassword=${AdminPassword}' >> /root/application/docker_compose/docker/.env
-            echo 'AdminEmail=${AdminEmail}' >> /root/application/docker_compose/docker/.env
-            echo 'RabbitmqDefaultUser=${RabbitmqDefaultUser}' >> /root/application/docker_compose/docker/.env
-            echo 'RabbitmqDefaultPass=${RabbitmqDefaultPass}' >> /root/application/docker_compose/docker/.env
-            echo 'PostgresUser=${PostgresUser}' >> /root/application/docker_compose/docker/.env
-            echo 'PostgresPassword=${PostgresPassword}' >> /root/application/docker_compose/docker/.env
-            echo 'PostgresDb=${PostgresDb}' >> /root/application/docker_compose/docker/.env
+            sed -i 's/ADMIN_USERNAME=[^\n]*/ADMIN_USERNAME=${ADMIN_USERNAME}/' /root/application/docker_compose/docker/.env
+            sed -i 's/ADMIN_PASSWORD=[^\n]*/ADMIN_PASSWORD=${ADMIN_PASSWORD}/' /root/application/docker_compose/docker/.env
+            sed -i 's/ADMIN_EMAIL=[^\n]*/ADMIN_EMAIL=${ADMIN_EMAIL}/' /root/application/docker_compose/docker/.env
+            sed -i 's/RABBITMQ_DEFAULT_USER=[^\n]*/RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}/' /root/application/docker_compose/docker/.env
+            sed -i 's/RABBITMQ_DEFAULT_PASS=[^\n]*/RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}/' /root/application/docker_compose/docker/.env
+            sed -i 's/POSTGRES_USER=[^\n]*/POSTGRES_USER=${POSTGRES_USER}/' /root/application/docker_compose/docker/.env
+            sed -i 's/POSTGRES_PASSWORD=[^\n]*/POSTGRES_PASSWORD=${POSTGRES_PASSWORD}/' /root/application/docker_compose/docker/.env
+            sed -i 's/POSTGRES_DB=[^\n]*/POSTGRES_DB=${POSTGRES_DB}/' /root/application/docker_compose/docker/.env
             systemctl start quickstart-doccano
           - RegionId:
               Ref: ALIYUN::Region
@@ -419,14 +420,14 @@ Metadata:
         Label:
           default: 可用区配置
       - Parameters:
-          - AdminUserName
-          - AdminPassword
-          - AdminEmail
-          - RabbitmqDefaultUser
-          - RabbitmqDefaultPass
-          - PostgresUser
-          - PostgresPassword
-          - PostgresDb
+          - ADMIN_USERNAME
+          - ADMIN_PASSWORD
+          - ADMIN_EMAIL
+          - RABBITMQ_DEFAULT_USER
+          - RABBITMQ_DEFAULT_PASS
+          - POSTGRES_USER
+          - POSTGRES_PASSWORD
+          - POSTGRES_DB
         Label:
           en: Software Configuration
           zh-cn: 软件配置
