@@ -1,0 +1,5 @@
+site_name: Aliyun 计算巢 x quickstart-doccano
+theme:
+  name: aliyuncomputenest
+extra_css:
+  - 'extra.css'
